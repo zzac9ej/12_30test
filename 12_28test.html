@@ -1,0 +1,91 @@
+<html>
+  <body>
+    <form id="myForm">
+      <h3>請填寫以下資料：</h3>
+      
+      <!-- 性別選擇 -->
+      <label>性別：</label>
+      <label><input type="radio" name="gender" value="男" required> 男</label>
+      <label><input type="radio" name="gender" value="女" required> 女</label><br><br>
+      
+      <!-- 興趣選擇 -->
+      <label>興趣：</label>
+      <label><input type="checkbox" name="hobby" value="閱讀"> 閱讀</label>
+      <label><input type="checkbox" name="hobby" value="旅行"> 旅行</label>
+      <label><input type="checkbox" name="hobby" value="運動"> 運動</label><br><br>
+      
+
+      
+      <!-- 數字輸入 -->
+      <label for="age">年齡：</label>
+      <input type="number" id="age" name="age" min="1" max="120" placeholder="請輸入您的年齡" required><br><br>
+      
+      <!-- 意見輸入 -->
+      <label for="comments">意見：</label><br>
+      <textarea name="comments" id="comments" rows="5" cols="30" placeholder="請輸入您的意見"></textarea><br><br>
+      
+      <!-- 下拉選單 -->
+      <label for="city">所在城市：</label>
+      <select name="city" id="city" required>
+        <option value="">請選擇城市</option>
+        <option value="台北">台北</option>
+        <option value="台中">台中</option>
+        <option value="高雄">高雄</option>
+      </select><br><br>
+      
+      <!-- 按鈕 -->
+      <button type="button" id="submitBtn">提交</button>
+      <input type="reset" id="resetBtn" value="重置"><br><br>
+      
+      <!-- 顯示結果 -->
+      <div id="output"></div>
+    </form>
+
+    <script>
+      document.getElementById('submitBtn').addEventListener('click', function () {
+        const form = document.getElementById('myForm');
+        const output = document.getElementById('output');
+
+        // 性別處理
+        const gender = form.querySelector('input[name="gender"]:checked');
+        const genderValue = gender ? gender.value : '未選擇';
+
+        // 興趣處理
+        const hobbies = Array.from(form.querySelectorAll('input[name="hobby"]:checked'))
+          .map(checkbox => checkbox.value);
+        const hobbiesValue = hobbies.length ? hobbies.join(', ') : '未選擇';
+
+
+        // 年齡處理
+        const age = form.querySelector('#age').value || '未填寫';
+
+        // 意見處理
+        const comments = form.querySelector('#comments').value || '無意見';
+
+        // 城市處理
+        const city = form.querySelector('#city').value || '未選擇';
+
+        // 結果顯示
+        if (!gender || !city || !age) {
+          output.innerHTML = '<p style="color: red;">請確保所有必填欄位均已填寫！</p>';
+        } else {
+          output.innerHTML = `
+            <h3>表單結果：</h3>
+            <p><strong>性別：</strong> ${genderValue}</p>
+            <p><strong>興趣：</strong> ${hobbiesValue}</p>
+            <p><strong>年齡：</strong> ${age}</p>
+            <p><strong>意見：</strong> ${comments}</p>
+            <p><strong>城市：</strong> ${city}</p>
+          `;
+        }
+      });
+
+      // 重置按鈕邏輯
+      document.getElementById('resetBtn').addEventListener('click', function () {
+        const output = document.getElementById('output');
+        output.innerHTML = ''; // 清空結果區域
+      });
+
+    </script>
+  </body>
+</html>
